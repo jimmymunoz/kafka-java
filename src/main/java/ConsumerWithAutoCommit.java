@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class Consumer {
+public class ConsumerWithAutoCommit {
     public static void main(String[] args) {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
@@ -25,7 +25,7 @@ public class Consumer {
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
-                    String message = String.format("Offset %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+                    String message = String.format("Offset %d, key = %s, value = %s%n, partition = %s%n", record.offset(), record.key(), record.value(), record.partition());
                     System.out.println(message);
                 }
             }
